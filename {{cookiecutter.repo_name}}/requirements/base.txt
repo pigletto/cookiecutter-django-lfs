@@ -33,5 +33,5 @@ django-nose
 -e git://github.com/diefenbach/lfs-paypal.git#egg=lfs_paypal
 -e git://github.com/diefenbach/lfs-theme.git#egg=lfs_theme
 -e git://github.com/diefenbach/django-paypal.git#egg=paypal
--e git://github.com/diefenbach/django-portlets.git@version/1.2#egg=portlets
+-e git://github.com/diefenbach/django-portlets.git#egg=portlets
 -e git://github.com/diefenbach/django-reviews.git#egg=reviews
