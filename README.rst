@@ -1,37 +1,17 @@
 cookiecutter-django-lfs
 =======================
 
-A cookiecutter_ template for Lighting Fast Shop.
+A cookiecutter_ template for Lightning Fast Shop originally based on https://github.com/restless/cookiecutter-django-lfs.git
 
 .. _cookiecutter: https://github.com/audreyr/cookiecutter
 
 Features
 ---------
 
-* For bleeding edge LFS (easily configurable)
-* For Django 1.8
-* 12-Factor_ based settings via django-environ_
-* Optimized development and production settings
-* Grunt build for compass and livereload (planned)
-* Basic e-mail configurations for send emails via SendGrid_
-* Media storage using Amazon S3 (planned)
-* Serve static files from Amazon S3 or Whitenoise_ (optional) (planned)
-* Template based on django-cookiecutter_
+This is a cookiecutter template to quickly install Lightning Fast Shop (LFS)
 
-.. _django-environ: https://github.com/joke2k/django-environ
-.. _12-Factor: http://12factor.net/
-.. _SendGrid: https://sendgrid.com/
-.. _Whitenoise: https://whitenoise.readthedocs.org/
-.. _django-cookiecutter: https://github.com/pydanny/cookiecutter-django
-
-
-Constraints
------------
-
-* Only maintained 3rd party libraries are used.
-* PostgreSQL everywhere (9.0+)
-* Environment variables for configuration (This won't work with Apache/mod_wsgi).
-
+Currently it is used for LFS development (as it fetches development versions of packages - see requirements/base.txt),
+but can be easily configured to fetch different versions of packages (released)
 
 Usage
 ------
@@ -44,7 +24,7 @@ First, get cookiecutter. Trust me, it's awesome::
 
 Now run it against this repo::
 
-    $ cookiecutter https://github.com/restless/cookiecutter-django-lfs.git
+    $ cookiecutter https://github.com/pigletto/cookiecutter-django-lfs.git
 
 You'll be prompted for some questions, answer them, then it will create a LFS project for you.
 
@@ -89,7 +69,8 @@ You can now initialize database and LFS and finally run the project::
 
     $ python manage.py lfs_init
 
-    $ python manage.py runserver
+    $ python manage.py createsuperuser
 
+    $ python manage.py runserver
 
 It's time to write the code!!!
