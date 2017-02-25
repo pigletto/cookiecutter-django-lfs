@@ -45,7 +45,6 @@ THIRD_PARTY_APPS = (
     'lfs_theme',
     'compressor',
     'django_countries',
-    'pagination',
     'reviews',
     'portlets',
     'lfs',
@@ -82,7 +81,7 @@ THIRD_PARTY_APPS = (
     'localflavor',
     'postal',
     'paypal.standard.ipn',
-    'lfs_criterion_us_states',
+    # 'lfs_criterion_us_states',
     'django_nose',
 )
 
@@ -97,16 +96,18 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    "django.contrib.redirects.middleware.RedirectFallbackMiddleware",
-    "pagination.middleware.PaginationMiddleware",
-    "lfs.utils.middleware.AJAXSimpleExceptionResponse",
-    "lfs.utils.middleware.ProfileMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'pagination.middleware.PaginationMiddleware',
+    'lfs.utils.middleware.AJAXSimpleExceptionResponse',
+    'lfs.utils.middleware.ProfileMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware'
     # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
@@ -120,10 +121,6 @@ MIGRATION_MODULES = {
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
 DEBUG = env.bool("DJANGO_DEBUG", False)
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-TEMPLATE_DEBUG = DEBUG
-# END DEBUG
 
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -185,25 +182,39 @@ USE_TZ = True
 # TEMPLATE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.core.context_processors.debug',
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.request',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'lfs.core.context_processors.main',
-    # Your stuff: custom template context processors go here
-)
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-TEMPLATE_DIRS = (
-    str(APPS_DIR.path('templates')),
-)
-
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+TEMPLATES = [
+    {
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        'DIRS': [
+            str(APPS_DIR.path('templates')),
+        ],
+        'OPTIONS': {
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+            'debug': DEBUG,
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                # Your stuff: custom template context processors go here
+                'lfs.core.context_processors.main',
+            ],
+        },
+    },
+]
 
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -336,13 +347,13 @@ LFS_PAYMENT_METHOD_PROCESSORS = [
 ]
 
 LFS_PRICE_CALCULATORS = [
-    ['lfs.gross_price.GrossPriceCalculator', _(u'Price includes tax')],
-    ['lfs.net_price.NetPriceCalculator', _(u'Price excludes tax')],
+    ['lfs.gross_price.calculator.GrossPriceCalculator', _(u'Price includes tax')],
+    ['lfs.net_price.calculator.NetPriceCalculator', _(u'Price excludes tax')],
 ]
 
 LFS_SHIPPING_METHOD_PRICE_CALCULATORS = [
-    ["lfs.shipping.GrossShippingMethodPriceCalculator", _(u'Price includes tax')],
-    ["lfs.shipping.NetShippingMethodPriceCalculator", _(u'Price excludes tax')],
+    ["lfs.shipping.calculator.GrossShippingMethodPriceCalculator", _(u'Price includes tax')],
+    ["lfs.shipping.calculator.NetShippingMethodPriceCalculator", _(u'Price excludes tax')],
 ]
 
 LFS_UNITS = [
