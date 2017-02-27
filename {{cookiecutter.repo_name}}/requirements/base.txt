@@ -5,35 +5,8 @@ django==1.10.5
 django-environ==0.4.1
 python-dotenv==0.6.2
 
-# Images
-pillow==4.0.0
-
 # Static files compressor
 django-compressor==2.1.1
 
 # Useful things
-django-postal==0.96
-django-localflavor==1.4.1
-django-paypal==0.3.6
-#django-countries==2.1.2
-#django-pagination==1.0.7
-#django-timelog
 django-extensions
-
-# Unicode slugification
-unicode-slugify==0.1.1
-
-# Tests
-django-nose
-
-# LFS
-# http://pypi.iqpp.de/django-paypal-0.1.2.lfs-2.tar.gz
-#-e git://github.com/diefenbach/django-paypal.git#egg=paypal
--e git://github.com/diefenbach/django-lfs.git@develop#egg=lfs
--e git://github.com/diefenbach/lfs-contact.git@develop#egg=lfs_contact
--e git://github.com/diefenbach/lfs-criterion-us-states#egg=lfs_cirterion_us_states
--e git://github.com/diefenbach/lfs-order-numbers.git@develop#egg=lfs_order_numbers
--e git://github.com/diefenbach/lfs-paypal.git@develop#egg=lfs_paypal
--e git://github.com/diefenbach/lfs-theme.git@develop#egg=lfs_theme
--e git://github.com/diefenbach/django-portlets.git@develop#egg=portlets
--e git://github.com/diefenbach/django-reviews.git@develop#egg=reviews
