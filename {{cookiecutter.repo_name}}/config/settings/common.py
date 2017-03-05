@@ -103,7 +103,6 @@ MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    'pagination.middleware.PaginationMiddleware',
     'lfs.utils.middleware.AJAXSimpleExceptionResponse',
     'lfs.utils.middleware.ProfileMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -184,32 +183,16 @@ USE_TZ = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
 TEMPLATES = [
     {
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
-        'DIRS': [
-            str(APPS_DIR.path('templates')),
-        ],
+        'DIRS': [],
+        'APP_DIRS': True,
         'OPTIONS': {
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
             'debug': DEBUG,
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
-            'loaders': [
-                'django.template.loaders.filesystem.Loader',
-                'django.template.loaders.app_directories.Loader',
-            ],
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                # Your stuff: custom template context processors go here
                 'lfs.core.context_processors.main',
             ],
         },
@@ -343,7 +326,7 @@ LFS_SHIPPING_EMAIL_REQUIRED = False
 LFS_SHIPPING_PHONE_REQUIRED = False
 
 LFS_PAYMENT_METHOD_PROCESSORS = [
-    ["lfs_paypal.PayPalProcessor", _(u"PayPal")],
+    ["lfs_paypal.processor.PayPalProcessor", _(u"PayPal")],
 ]
 
 LFS_PRICE_CALCULATORS = [
@@ -357,13 +340,12 @@ LFS_SHIPPING_METHOD_PRICE_CALCULATORS = [
 ]
 
 LFS_UNITS = [
-    u"l",
-    u"m",
-    u"qm",
-    u"cm",
-    u"lfm",
-    u"Package",
-    u"Piece",
+    _(u"l"),
+    _(u"m"),
+    _(u"cm"),
+    _(u"lfm"),
+    _(u"Package(s)"),
+    _(u"Piece(s)"),
 ]
 
 LFS_PRICE_UNITS = LFS_BASE_PRICE_UNITS = LFS_PACKING_UNITS = LFS_UNITS
@@ -378,27 +360,11 @@ LFS_CRITERIA = [
     ["lfs.criteria.models.WeightCriterion", _(u"Weight")],
     ["lfs.criteria.models.ShippingMethodCriterion", _(u"Shipping Method")],
     ["lfs.criteria.models.PaymentMethodCriterion", _(u"Payment Method")],
-    ["lfs_criterion_us_states.models.USStatesCriterion", _(u"US State")],
 ]
 
 REVIEWS_SHOW_PREVIEW = False
 REVIEWS_IS_NAME_REQUIRED = False
 REVIEWS_IS_EMAIL_REQUIRED = False
 REVIEWS_IS_MODERATED = False
-
-PISTON_DISPLAY_ERRORS = True
-
-# JENKINS CONFIGURATION
-# ------------------------------------------------------------------------------
-# apps that we want jenkins ci to test
-PROJECT_APPS = ['lfs.core']
-JENKINS_TASKS = (
-    'django_jenkins.tasks.run_pylint',
-    #'django_jenkins.tasks.with_coverage',
-    'django_jenkins.tasks.django_tests',
-    'django_jenkins.tasks.run_pep8',
-    'django_jenkins.tasks.run_pyflakes',
-    #'django_jenkins.tasks.windmill_tests',
-)
 
 # Your common stuff: Below this line define 3rd party library settings

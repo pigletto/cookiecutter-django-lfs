@@ -8,9 +8,9 @@ handler500 = 'lfs.core.views.server_error'
 urlpatterns = [
     url(r'', include('lfs.core.urls')),
     url(r'^manage/', include('lfs.manage.urls')),
+    url(r'^reviews/', include('reviews.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^paypal/ipn/', include('paypal.standard.ipn.urls')),
-    url(r'^reviews/', include('reviews.urls')),
 
     # Your stuff: custom urls go here
 
